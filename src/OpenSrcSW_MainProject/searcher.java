@@ -113,14 +113,6 @@ public class searcher {
          eachDoc[i] = searched[i][1].split(" ");
       }
       
-      //eachDoc 출력하여 확인
-      System.out.println("eachDoc : ");
-      for(int i = 0; i < eachDoc.length; i++) {
-         for(int j = 0; j < eachDoc[i].length; j++) {
-               System.out.print(eachDoc[i][j]+" ");
-         }
-         System.out.println();
-      }
       
       //qKwrd 와 searched 간의 단어 순서 불일치를 일치하도록 정렬함
       for(int i = 0; i < qKwrd.length; i++) {
@@ -136,15 +128,6 @@ public class searcher {
          }
       }
       
-      //qKwrd 출력하여 정렬이 잘 되었는지 확인
-      System.out.println("qKwrd : ");
-      for(int i = 0; i < qKwrd.length; i++) {
-         System.out.println(qKwrd[i]);
-      }
-      System.out.println("qtf : ");
-      for(int i = 0; i < qtf.length; i++) {
-         System.out.println(qtf[i]);
-      }
       
       //문서별 유사도를 계산하여 저장할 저장공간
       double[][] sim = new double[eachDoc[0].length/2][2];
@@ -161,14 +144,6 @@ public class searcher {
          sim[i][1] = sum;
       }
       
-      //sim 출력헤서 확인
-      System.out.println("sim : ");
-      for(int i = 0; i < sim.length; i++) {
-         for(int j = 0; j < sim[i].length; j++) {
-            System.out.print(sim[i][j] + " ");
-         }
-         System.out.println();
-      }
       
       // 분모에 들어갈 ||A|| 계산
       double sA = 0;
