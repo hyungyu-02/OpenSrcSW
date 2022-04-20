@@ -114,13 +114,13 @@ public class searcher {
       }
       
       //eachDoc 출력하여 확인
-      System.out.println("eachDoc : ");
-      for(int i = 0; i < eachDoc.length; i++) {
-         for(int j = 0; j < eachDoc[i].length; j++) {
-               System.out.print(eachDoc[i][j]+" ");
-         }
-         System.out.println();
-      }
+//      System.out.println("eachDoc : ");
+//      for(int i = 0; i < eachDoc.length; i++) {
+//         for(int j = 0; j < eachDoc[i].length; j++) {
+//               System.out.print(eachDoc[i][j]+" ");
+//         }
+//         System.out.println();
+//      }
       
       //qKwrd 와 searched 간의 단어 순서 불일치를 일치하도록 정렬함
       for(int i = 0; i < qKwrd.length; i++) {
@@ -137,14 +137,10 @@ public class searcher {
       }
       
       //qKwrd 출력하여 정렬이 잘 되었는지 확인
-      System.out.println("qKwrd : ");
-      for(int i = 0; i < qKwrd.length; i++) {
-         System.out.println(qKwrd[i]);
-      }
-      System.out.println("qtf : ");
-      for(int i = 0; i < qtf.length; i++) {
-         System.out.println(qtf[i]);
-      }
+//      System.out.println("qKwrd : ");
+//      for(int i = 0; i < qKwrd.length; i++) {
+//         System.out.println(qKwrd[i]);
+//      }
       
       //문서별 유사도를 계산하여 저장할 저장공간
       double[][] sim = new double[eachDoc[0].length/2][2];
@@ -162,85 +158,31 @@ public class searcher {
       }
       
       //sim 출력헤서 확인
-      System.out.println("sim : ");
-      for(int i = 0; i < sim.length; i++) {
-         for(int j = 0; j < sim[i].length; j++) {
-            System.out.print(sim[i][j] + " ");
-         }
-         System.out.println();
-      }
-      
-      // 분모에 들어갈 ||A|| 계산
-      double sA = 0;
-      for(int i = 0; i < qtf.length; i++) {
-    	  sA += Double.parseDouble(qtf[i])*Double.parseDouble(qtf[i]);
-      }
-      sA = Math.sqrt(sA);
-      System.out.println("sA : " + sA);
-      
-      // 분모에 들어갈 ||B|| 계산
-      double sB[] = new double[sim.length];
-//      System.out.println("sB : ");
-//      for(int i = 0; i < sB.length; i++) {
-//    	  System.out.println(sB[i]);
+//      System.out.println("sim : ");
+//      for(int i = 0; i < sim.length; i++) {
+//         for(int j = 0; j < sim[i].length; j++) {
+//            System.out.print(sim[i][j] + " ");
+//         }
+//         System.out.println();
 //      }
-      for(int i = 0; i < sB.length; i++) {
-    	  for(int j = 0; j < eachDoc.length; j++) {
-    		  sB[i] += Double.parseDouble(eachDoc[j][i*2 + 1])*Double.parseDouble(eachDoc[j][i*2 + 1]);
-    	  }
-    	  sB[i] = Math.sqrt(sB[i]);
-      }
-      
-      System.out.println("sB : ");
-      for(int i = 0; i < sB.length; i++) {
-    	  System.out.println(sB[i]);
-      }
-      
-      //Cosine similarity 를 저장할 저장공간
-      double[][] simForCos = new double[eachDoc[0].length/2][2];
-      
-      for(int i = 0; i < simForCos.length; i++) {
-    	  simForCos[i][0] = i;
-			if (sA * sB[i] != 0) {
-				simForCos[i][1] = sim[i][1] / (sA * sB[i]);
-			}
-			else {
-				simForCos[i][1] = 0;
-			}
-      }
-      
       
       //중요도 순으로 내림차순 정렬
-//      for(int i = 0; i < sim.length - 1; i++) {
-//         for(int j = i+1; j < sim.length; j++) {
-//            if(sim[i][1] < sim[j][1]) {
-//               double temp = sim[i][1];
-//               sim[i][1] = sim[j][1];
-//               sim[j][1] = temp;
-//               temp = sim[i][0];
-//               sim[i][0] = sim[j][0];
-//               sim[j][0] = temp;
-//            }
-//         }
-//      }
-      
-      //Cosine similarity 중요도 순으로 내림차순 정렬
-      for(int i = 0; i < simForCos.length - 1; i++) {
-          for(int j = i+1; j < simForCos.length; j++) {
-             if(simForCos[i][1] < simForCos[j][1]) {
-                double temp = simForCos[i][1];
-                simForCos[i][1] = simForCos[j][1];
-                simForCos[j][1] = temp;
-                temp = simForCos[i][0];
-                simForCos[i][0] = simForCos[j][0];
-                simForCos[j][0] = temp;
-             }
-          }
-       }
+      for(int i = 0; i < sim.length - 1; i++) {
+         for(int j = i+1; j < sim.length; j++) {
+            if(sim[i][1] < sim[j][1]) {
+               double temp = sim[i][1];
+               sim[i][1] = sim[j][1];
+               sim[j][1] = temp;
+               temp = sim[i][0];
+               sim[i][0] = sim[j][0];
+               sim[j][0] = temp;
+            }
+         }
+      }
       
       
       //문서 id별 타이틀 정보 가져오기(하드 코딩)
-      String[] title = new String[simForCos.length];
+      String[] title = new String[sim.length];
       
       File file = new File("./collection.xml");
       DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -259,8 +201,8 @@ public class searcher {
       
       //상위 3위까지 출력 (유사도가 0인 경우 제외함)
       for(int i = 0; i < sim.length && i < 3; i++)
-         if(simForCos[i][1] > 0)
-            System.out.printf("%d등 : 문서(%d) , 타이틀 : (%s) , 유사도 : (%f)\n",i+1,(int)simForCos[i][0],title[(int)simForCos[i][0]], simForCos[i][1]);
+         if(sim[i][1] > 0)
+            System.out.printf("%d등 : 문서(%d) , 타이틀 : (%s) , 유사도 : (%f)\n",i+1,(int)sim[i][0],title[(int)sim[i][0]], sim[i][1]);
       
    }
 }
