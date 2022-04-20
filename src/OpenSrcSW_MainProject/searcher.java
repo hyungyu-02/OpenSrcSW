@@ -210,21 +210,6 @@ public class searcher {
       }
       
       
-      
-      //중요도 순으로 내림차순 정렬
-//      for(int i = 0; i < sim.length - 1; i++) {
-//         for(int j = i+1; j < sim.length; j++) {
-//            if(sim[i][1] < sim[j][1]) {
-//               double temp = sim[i][1];
-//               sim[i][1] = sim[j][1];
-//               sim[j][1] = temp;
-//               temp = sim[i][0];
-//               sim[i][0] = sim[j][0];
-//               sim[j][0] = temp;
-//            }
-//         }
-//      }
-      
       //Cosine similarity 중요도 순으로 내림차순 정렬
       for(int i = 0; i < simForCos.length - 1; i++) {
           for(int j = i+1; j < simForCos.length; j++) {
