@@ -104,6 +104,11 @@ public class searcher {
       System.out.println("5주차 실행완료");
    }
    
+   private double[][] InnerProduct(String qKwrd[], String qtf[], String[][] searched, double[][]sim) throws ParserConfigurationException, SAXException, IOException 
+   {
+	   return sim;
+   }
+   
    private void CalcSim(String qKwrd2[], String qtf2[], String[][] searched2) throws ParserConfigurationException, SAXException, IOException {
       
       //하나의 String 으로 저장된 문서별 가중치를 쪼개어 저장할 저장공간
@@ -135,14 +140,15 @@ public class searcher {
       
       
       //문서번호 입력, 가중치 계산 및 저장
-      for(int i = 0; i < simC.length;i++) {
-    	  simC[i][0] = i;
-    	  sumC = 0.0;
-         for(int j = 0; j < eachDoc2.length; j++) {
-        	 sumC += Double.parseDouble(qtf2[j]) * Double.parseDouble(eachDoc2[j][(i*2) + 1]);
-         }
-         simC[i][1] = sumC;
-      }
+//      for(int i = 0; i < simC.length;i++) {
+//    	  simC[i][0] = i;
+//    	  sumC = 0.0;
+//         for(int j = 0; j < eachDoc2.length; j++) {
+//        	 sumC += Double.parseDouble(qtf2[j]) * Double.parseDouble(eachDoc2[j][(i*2) + 1]);
+//         }
+//         simC[i][1] = sumC;
+//      }
+      simC = InnerProduct(qKwrd2, qtf2, searched2, simC);
       
       
       // 분모에 들어갈 ||A|| 계산
