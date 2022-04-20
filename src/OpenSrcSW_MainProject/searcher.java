@@ -104,61 +104,61 @@ public class searcher {
       System.out.println("5주차 실행완료");
    }
    
-   private void CalcSim(String qKwrd[], String qtf[], String[][] searched) throws ParserConfigurationException, SAXException, IOException {
+   private void CalcSim(String qKwrd2[], String qtf2[], String[][] searched2) throws ParserConfigurationException, SAXException, IOException {
       
       //하나의 String 으로 저장된 문서별 가중치를 쪼개어 저장할 저장공간
-      String[][] eachDoc = new String[searched.length][];
+      String[][] eachDoc2 = new String[searched2.length][];
       
-      for(int i = 0; i < eachDoc.length; i++) {
-         eachDoc[i] = searched[i][1].split(" ");
+      for(int i = 0; i < eachDoc2.length; i++) {
+    	  eachDoc2[i] = searched2[i][1].split(" ");
       }
       
       
       //qKwrd 와 searched 간의 단어 순서 불일치를 일치하도록 정렬함
-      for(int i = 0; i < qKwrd.length; i++) {
-         for(int j = 0; j < searched.length; j++) {
-            if(qKwrd[i].equals(searched[j][0])) {
-               String temp = qKwrd[i];
-               qKwrd[i] = qKwrd[j];
-               qKwrd[j] = temp;
-               temp = qtf[i];
-               qtf[i] = qtf[j];
-               qtf[j] = temp;
+      for(int i = 0; i < qKwrd2.length; i++) {
+         for(int j = 0; j < searched2.length; j++) {
+            if(qKwrd2[i].equals(searched2[j][0])) {
+               String temp2 = qKwrd2[i];
+               qKwrd2[i] = qKwrd2[j];
+               qKwrd2[j] = temp2;
+               temp2 = qtf2[i];
+               qtf2[i] = qtf2[j];
+               qtf2[j] = temp2;
             }
          }
       }
       
       
       //문서별 유사도를 계산하여 저장할 저장공간
-      double[][] sim = new double[eachDoc[0].length/2][2];
-      double sum;
+      double[][] simC = new double[eachDoc2[0].length/2][2];
+      double sumC;
       
       
       //문서번호 입력, 가중치 계산 및 저장
-      for(int i = 0; i < sim.length;i++) {
-         sim[i][0] = i;
-         sum = 0.0;
-         for(int j = 0; j < eachDoc.length; j++) {
-            sum += Double.parseDouble(qtf[j]) * Double.parseDouble(eachDoc[j][(i*2) + 1]);
+      for(int i = 0; i < simC.length;i++) {
+    	  simC[i][0] = i;
+    	  sumC = 0.0;
+         for(int j = 0; j < eachDoc2.length; j++) {
+        	 sumC += Double.parseDouble(qtf2[j]) * Double.parseDouble(eachDoc2[j][(i*2) + 1]);
          }
-         sim[i][1] = sum;
+         simC[i][1] = sumC;
       }
       
       
       // 분모에 들어갈 ||A|| 계산
       double sA = 0;
-      for(int i = 0; i < qtf.length; i++) {
-         sA += Double.parseDouble(qtf[i])*Double.parseDouble(qtf[i]);
+      for(int i = 0; i < qtf2.length; i++) {
+         sA += Double.parseDouble(qtf2[i])*Double.parseDouble(qtf2[i]);
       }
       sA = Math.sqrt(sA);
       System.out.println("sA : " + sA);
       
       // 분모에 들어갈 ||B|| 계산
-      double sB[] = new double[sim.length];
+      double sB[] = new double[simC.length];
       
       for(int i = 0; i < sB.length; i++) {
-         for(int j = 0; j < eachDoc.length; j++) {
-            sB[i] += Double.parseDouble(eachDoc[j][i*2 + 1])*Double.parseDouble(eachDoc[j][i*2 + 1]);
+         for(int j = 0; j < eachDoc2.length; j++) {
+            sB[i] += Double.parseDouble(eachDoc2[j][i*2 + 1])*Double.parseDouble(eachDoc2[j][i*2 + 1]);
          }
          sB[i] = Math.sqrt(sB[i]);
       }
@@ -169,12 +169,12 @@ public class searcher {
       }
       
       //Cosine similarity 를 저장할 저장공간
-      double[][] simForCos = new double[eachDoc[0].length/2][2];
+      double[][] simForCos = new double[eachDoc2[0].length/2][2];
       
       for(int i = 0; i < simForCos.length; i++) {
          simForCos[i][0] = i;
          if (sA * sB[i] != 0) {
-            simForCos[i][1] = sim[i][1] / (sA * sB[i]);
+            simForCos[i][1] = simC[i][1] / (sA * sB[i]);
          }
          else {
             simForCos[i][1] = 0;
@@ -186,12 +186,12 @@ public class searcher {
       for(int i = 0; i < simForCos.length - 1; i++) {
           for(int j = i+1; j < simForCos.length; j++) {
              if(simForCos[i][1] < simForCos[j][1]) {
-                double temp = simForCos[i][1];
+                double temp2 = simForCos[i][1];
                 simForCos[i][1] = simForCos[j][1];
-                simForCos[j][1] = temp;
-                temp = simForCos[i][0];
+                simForCos[j][1] = temp2;
+                temp2 = simForCos[i][0];
                 simForCos[i][0] = simForCos[j][0];
-                simForCos[j][0] = temp;
+                simForCos[j][0] = temp2;
              }
           }
        }
@@ -216,7 +216,7 @@ public class searcher {
       }
       
       //상위 3위까지 출력 (유사도가 0인 경우 제외함)
-      for(int i = 0; i < sim.length && i < 3; i++)
+      for(int i = 0; i < simC.length && i < 3; i++)
          if(simForCos[i][1] > 0)
             System.out.printf("%d등 : 문서(%d) , 타이틀 : (%s) , 유사도 : (%f)\n",i+1,(int)simForCos[i][0],title[(int)simForCos[i][0]], simForCos[i][1]);
       
