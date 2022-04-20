@@ -99,15 +99,14 @@ public class searcher {
 //         }
 //      }
       
+
       CalcSim(qKwrd, qtf, searched);//유사도 계산 및 순위대로 출력
+
       
       System.out.println("5주차 실행완료");
    }
    
-   private double[][] InnerProduct(String[] qtf, String[][] eachDoc) throws ParserConfigurationException, SAXException, IOException
-   {
-	   return null;
-   }
+   
    
    private void CalcSim(String qKwrd2[], String qtf2[], String[][] searched2) throws ParserConfigurationException, SAXException, IOException {
       
@@ -230,5 +229,105 @@ public class searcher {
    }
    
    
-   
+   private double[][] InnerProduct(String[] qtf, String[][] eachDoc) throws ParserConfigurationException, SAXException, IOException {
+
+		double[][] sim = new double[eachDoc[0].length / 2][2];
+		double sum;
+
+		// 문서번호 입력, 가중치 계산 및 저장
+		for (int i = 0; i < sim.length; i++) {
+			sim[i][0] = i;
+			sum = 0.0;
+			for (int j = 0; j < eachDoc.length; j++) {
+				sum += Double.parseDouble(qtf[j]) * Double.parseDouble(eachDoc[j][(i * 2) + 1]);
+			}
+			sim[i][1] = sum;
+		}
+		
+		return sim;
+	   
+	   
+	   
+	   
+	   
+      //하나의 String 으로 저장된 문서별 가중치를 쪼개어 저장할 저장공간
+//      String[][] eachDoc = new String[searched.length][];
+//      
+//      for(int i = 0; i < eachDoc.length; i++) {
+//         eachDoc[i] = searched[i][1].split(" ");
+//      }
+//      
+//      
+//      //qKwrd 와 searched 간의 단어 순서 불일치를 일치하도록 정렬함
+//      for(int i = 0; i < qKwrd.length; i++) {
+//         for(int j = 0; j < searched.length; j++) {
+//            if(qKwrd[i].equals(searched[j][0])) {
+//               String temp = qKwrd[i];
+//               qKwrd[i] = qKwrd[j];
+//               qKwrd[j] = temp;
+//               temp = qtf[i];
+//               qtf[i] = qtf[j];
+//               qtf[j] = temp;
+//            }
+//         }
+//      }
+//      
+//      
+//      //문서별 유사도를 계산하여 저장할 저장공간
+//      double[][] sim2 = new double[eachDoc[0].length/2][2];
+//      double sum;
+//      
+//      
+//      //문서번호 입력, 가중치 계산 및 저장
+//      for(int i = 0; i < sim.length;i++) {
+//         sim[i][0] = i;
+//         sum = 0.0;
+//         for(int j = 0; j < eachDoc.length; j++) {
+//            sum += Double.parseDouble(qtf[j]) * Double.parseDouble(eachDoc[j][(i*2) + 1]);
+//         }
+//         sim2[i][1] = sum;
+//      }
+//      return sim2;
+      
+      
+      //중요도 순으로 내림차순 정렬
+//      for(int i = 0; i < sim.length - 1; i++) {
+//         for(int j = i+1; j < sim.length; j++) {
+//            if(sim[i][1] < sim[j][1]) {
+//               double temp = sim[i][1];
+//               sim[i][1] = sim[j][1];
+//               sim[j][1] = temp;
+//               temp = sim[i][0];
+//               sim[i][0] = sim[j][0];
+//               sim[j][0] = temp;
+//            }
+//         }
+//      }
+      
+      
+      //문서 id별 타이틀 정보 가져오기(하드 코딩)
+//      String[] title = new String[sim.length];
+//      
+//      File file = new File("./collection.xml");
+//      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+//      DocumentBuilder db = dbf.newDocumentBuilder();
+//      Document document = db.parse(file);
+//      document.getDocumentElement().normalize();
+//      NodeList nList = document.getElementsByTagName("doc");
+//      
+//      for(int i = 0; i < nList.getLength(); i++) {
+//         Node nNode = nList.item(i);
+//         if(nNode.getNodeType() == Node.ELEMENT_NODE) {
+//            Element eElement = (Element) nNode;
+//            title[i] = eElement.getElementsByTagName("title").item(0).getTextContent();
+//         }
+//      }
+      
+      //상위 3위까지 출력 (유사도가 0인 경우 제외함)
+//      for(int i = 0; i < sim.length && i < 3; i++)
+//         if(sim[i][1] > 0)
+//            System.out.printf("%d등 : 문서(%d) , 타이틀 : (%s) , 유사도 : (%f)\n",i+1,(int)sim[i][0],title[(int)sim[i][0]], sim[i][1]);
+      
+   }
+
 }
