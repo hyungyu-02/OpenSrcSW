@@ -104,46 +104,65 @@ public class searcher {
       System.out.println("5주차 실행완료");
    }
    
-   private double[][] InnerProduct(String qKwrd[], String qtf[], String[][] searched, double[][]sim) throws ParserConfigurationException, SAXException, IOException {
-      
+   private double[][] InnerProduct(String[] qtf, String[][] eachDoc) throws ParserConfigurationException, SAXException, IOException {
+
+		double[][] sim = new double[eachDoc[0].length / 2][2];
+		double sum;
+
+		// 문서번호 입력, 가중치 계산 및 저장
+		for (int i = 0; i < sim.length; i++) {
+			sim[i][0] = i;
+			sum = 0.0;
+			for (int j = 0; j < eachDoc.length; j++) {
+				sum += Double.parseDouble(qtf[j]) * Double.parseDouble(eachDoc[j][(i * 2) + 1]);
+			}
+			sim[i][1] = sum;
+		}
+		
+		return sim;
+	   
+	   
+	   
+	   
+	   
       //하나의 String 으로 저장된 문서별 가중치를 쪼개어 저장할 저장공간
-      String[][] eachDoc = new String[searched.length][];
-      
-      for(int i = 0; i < eachDoc.length; i++) {
-         eachDoc[i] = searched[i][1].split(" ");
-      }
-      
-      
-      //qKwrd 와 searched 간의 단어 순서 불일치를 일치하도록 정렬함
-      for(int i = 0; i < qKwrd.length; i++) {
-         for(int j = 0; j < searched.length; j++) {
-            if(qKwrd[i].equals(searched[j][0])) {
-               String temp = qKwrd[i];
-               qKwrd[i] = qKwrd[j];
-               qKwrd[j] = temp;
-               temp = qtf[i];
-               qtf[i] = qtf[j];
-               qtf[j] = temp;
-            }
-         }
-      }
-      
-      
-      //문서별 유사도를 계산하여 저장할 저장공간
-      double[][] sim2 = new double[eachDoc[0].length/2][2];
-      double sum;
-      
-      
-      //문서번호 입력, 가중치 계산 및 저장
-      for(int i = 0; i < sim.length;i++) {
-         sim[i][0] = i;
-         sum = 0.0;
-         for(int j = 0; j < eachDoc.length; j++) {
-            sum += Double.parseDouble(qtf[j]) * Double.parseDouble(eachDoc[j][(i*2) + 1]);
-         }
-         sim2[i][1] = sum;
-      }
-      return sim2;
+//      String[][] eachDoc = new String[searched.length][];
+//      
+//      for(int i = 0; i < eachDoc.length; i++) {
+//         eachDoc[i] = searched[i][1].split(" ");
+//      }
+//      
+//      
+//      //qKwrd 와 searched 간의 단어 순서 불일치를 일치하도록 정렬함
+//      for(int i = 0; i < qKwrd.length; i++) {
+//         for(int j = 0; j < searched.length; j++) {
+//            if(qKwrd[i].equals(searched[j][0])) {
+//               String temp = qKwrd[i];
+//               qKwrd[i] = qKwrd[j];
+//               qKwrd[j] = temp;
+//               temp = qtf[i];
+//               qtf[i] = qtf[j];
+//               qtf[j] = temp;
+//            }
+//         }
+//      }
+//      
+//      
+//      //문서별 유사도를 계산하여 저장할 저장공간
+//      double[][] sim2 = new double[eachDoc[0].length/2][2];
+//      double sum;
+//      
+//      
+//      //문서번호 입력, 가중치 계산 및 저장
+//      for(int i = 0; i < sim.length;i++) {
+//         sim[i][0] = i;
+//         sum = 0.0;
+//         for(int j = 0; j < eachDoc.length; j++) {
+//            sum += Double.parseDouble(qtf[j]) * Double.parseDouble(eachDoc[j][(i*2) + 1]);
+//         }
+//         sim2[i][1] = sum;
+//      }
+//      return sim2;
       
       
       //중요도 순으로 내림차순 정렬
