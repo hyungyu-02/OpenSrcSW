@@ -180,10 +180,7 @@ public class searcher {
       
       // 분모에 들어갈 ||B|| 계산
       double sB[] = new double[sim.length];
-//      System.out.println("sB : ");
-//      for(int i = 0; i < sB.length; i++) {
-//         System.out.println(sB[i]);
-//      }
+      
       for(int i = 0; i < sB.length; i++) {
          for(int j = 0; j < eachDoc.length; j++) {
             sB[i] += Double.parseDouble(eachDoc[j][i*2 + 1])*Double.parseDouble(eachDoc[j][i*2 + 1]);
