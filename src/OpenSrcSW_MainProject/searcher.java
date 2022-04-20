@@ -99,12 +99,12 @@ public class searcher {
 //         }
 //      }
       
-      CalcSim(qKwrd, qtf, searched);//유사도 계산 및 순위대로 출력
+      InnerProduct(qKwrd, qtf, searched);//유사도 계산 및 순위대로 출력
       
       System.out.println("5주차 실행완료");
    }
    
-   private void CalcSim(String qKwrd[], String qtf[], String[][] searched) throws ParserConfigurationException, SAXException, IOException {
+   private void InnerProduct(String qKwrd[], String qtf[], String[][] searched) throws ParserConfigurationException, SAXException, IOException {
       
       //하나의 String 으로 저장된 문서별 가중치를 쪼개어 저장할 저장공간
       String[][] eachDoc = new String[searched.length][];
