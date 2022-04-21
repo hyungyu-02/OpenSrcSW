@@ -94,8 +94,6 @@ public class MidTerm {
 
 		CalcSim(qKwrd, qtf, searched);// 유사도 계산 및 순위대로 출력
 
-		System.out.println("5주차 실행완료");
-
 //		File file = new File(data_path);
 //		
 //		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -220,8 +218,6 @@ public class MidTerm {
 		for (int i = 0; i < qtf2.length; i++) {
 			sA += Double.parseDouble(qtf2[i]) * Double.parseDouble(qtf2[i]);
 		}
-		sA = Math.sqrt(sA);
-		System.out.println("sA : " + sA);
 
 		// 분모에 들어갈 ||B|| 계산
 		double sB[] = new double[simC.length];
@@ -231,11 +227,6 @@ public class MidTerm {
 				sB[i] += Double.parseDouble(eachDoc2[j][i * 2 + 1]) * Double.parseDouble(eachDoc2[j][i * 2 + 1]);
 			}
 			sB[i] = Math.sqrt(sB[i]);
-		}
-
-		System.out.println("sB : ");
-		for (int i = 0; i < sB.length; i++) {
-			System.out.println(sB[i]);
 		}
 
 		// Cosine similarity 를 저장할 저장공간
