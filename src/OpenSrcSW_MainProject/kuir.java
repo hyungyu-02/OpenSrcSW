@@ -36,5 +36,11 @@ public class kuir {
             search.query();
          }
       }
+      else if(command.equals("-m")) {
+    	  if(command2.equals("-q")) {
+    		  MidTerm midterm = new MidTerm(path, query);
+    		  midterm.showSnippet();
+    	  }
+      }
    }
 }
